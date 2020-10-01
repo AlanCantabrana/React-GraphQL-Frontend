@@ -12,16 +12,17 @@ const CURRENT_USER_QUERY = gql`
     }
   }
 `;
-//{...props } passing down props to the children
+
 const User = props => (
   <Query {...props} query={CURRENT_USER_QUERY}>
-    {payload => props.children(payload)}
+    {payload => console.log(payload) || props.children(payload)}
   </Query>
 );
-
+//{...props } passing down props to the children
 User.PropTypes = {
   children: PropTypes.func.isRequired,
 };
 
 export default User;
 export { CURRENT_USER_QUERY };
+
