@@ -19,10 +19,9 @@ const User = props => (
   </Query>
 );
 //{...props } passing down props to the children
-User.PropTypes = {
+User.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
 export default User;
 export { CURRENT_USER_QUERY };
-

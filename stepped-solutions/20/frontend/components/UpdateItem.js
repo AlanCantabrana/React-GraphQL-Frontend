@@ -29,7 +29,7 @@ const UPDATE_ITEM_MUTATION = gql`
 
 class UpdateItem extends Component {
   state = {};
-  handleChange = e => {
+  handleChange = e => {       //handle submit data
     const { name, type, value } = e.target;
     const val = type === 'number' ? parseFloat(value) : value;
     this.setState({ [name]: val });
@@ -38,10 +38,10 @@ class UpdateItem extends Component {
     e.preventDefault();
     console.log('Updating Item!!');
     console.log(this.state);
-    const res = await updateItemMutation({
+    const res = await updateItemMutation({      //query mutation
       variables: {
-        id: this.props.id,
-        ...this.state,
+        id: this.props.id,            //passing variables to mutation
+        ...this.state,            
       },
     });
     console.log('Updated!!');
@@ -49,17 +49,17 @@ class UpdateItem extends Component {
 
   render() {
     return (
-      <Query
+      <Query                          /* A mutation nested inside a query */
         query={SINGLE_ITEM_QUERY}
         variables={{
           id: this.props.id,
         }}
-      >
+      >                                 {/* First resolve the query... loading data*/}
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           if (!data.item) return <p>No Item Found for ID {this.props.id}</p>;
-          return (
-            <Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>
+          return (                       /* Return the mutation... update data */
+            <Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>  
               {(updateItem, { loading, error }) => (
                 <Form onSubmit={e => this.updateItem(e, updateItem)}>
                   <Error error={error} />
@@ -72,7 +72,7 @@ class UpdateItem extends Component {
                         name="title"
                         placeholder="Title"
                         required
-                        defaultValue={data.item.title}
+                        defaultValue={data.item.title}      //load data
                         onChange={this.handleChange}
                       />
                     </label>
